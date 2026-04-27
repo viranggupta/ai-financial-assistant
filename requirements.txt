@@ -1,6 +1,4 @@
 streamlit
 pymongo
-sentence-transformers
 huggingface_hub
 numpy
-torch

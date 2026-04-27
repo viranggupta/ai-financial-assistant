@@ -4,7 +4,7 @@ import os
 
 # Load API
 client = InferenceClient(
-    model="mistralai/Mistral-7B-Instruct",
+    model="google/flan-t5-base",
     token=os.environ["HF_TOKEN"]
 )
 
@@ -16,9 +16,11 @@ Answer clearly and professionally:
 {user_query}
 """
 
-    response = client.text_generation(prompt, max_new_tokens=300)
-    return response
-
+    try:
+        response = client.text_generation(prompt, max_new_tokens=100)
+        return response
+    except Exception as e:
+        return "⚠️ Server busy. Please try again."
 
 # UI
 st.set_page_config(page_title="AI Financial Assistant")
