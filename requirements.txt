@@ -6,3 +6,4 @@ bcrypt
 requests
 pandas
 numpy
+streamlit-autorefresh
