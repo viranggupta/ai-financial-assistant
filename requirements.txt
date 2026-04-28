@@ -2,3 +2,7 @@ streamlit
 pymongo
 groq
 yfinance
+bcrypt
+requests
+pandas
+numpy

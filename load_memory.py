@@ -5,7 +5,7 @@ from pymongo import MongoClient
 # 🔗 Connect to MongoDB
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://viranggupta:j4pWpQBRV82djarF@gmp-21-19-virang.srl59.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(os.environ["MONGO_URI"])
 
 db = client["financial_db"]
 collection = db["claude_memory"]

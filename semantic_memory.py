@@ -5,13 +5,16 @@ client = MongoClient(os.environ["MONGO_URI"])
 db = client["financial_db"]
 collection = db["memory"]
 
-# Store conversation
-def store_memory(text):
-    collection.insert_one({"content": text})
+# Store per user
+def store_memory(user, text):
+    collection.insert_one({
+        "user": user,
+        "content": text
+    })
 
-# Retrieve last few conversations
-def retrieve_memory(query, limit=3):
-    docs = list(collection.find().sort("_id", -1).limit(limit))
+# Retrieve per user
+def get_memory(user, limit=3):
+    docs = list(collection.find({"user": user}).sort("_id", -1).limit(limit))
 
     if not docs:
         return ""
