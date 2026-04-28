@@ -2,31 +2,31 @@ import streamlit as st
 from huggingface_hub import InferenceClient
 import os
 import time
+from groq import Groq
+import os
 
+client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 # Load API
-client = InferenceClient(
-    model="tiiuae/falcon-rw-1b",
-    token=os.environ["HF_TOKEN"]
-)
-import time  
-
-def generate_response(user_query):
+def generate_response(user_query, context=""):
     prompt = f"""
 You are a financial assistant.
 
-Answer clearly and professionally:
+Context:
+{context}
+
+Question:
 {user_query}
+
+Answer clearly and professionally.
 """
 
-    for _ in range(3):  # retry 3 times
-        try:
-            response = client.text_generation(prompt, max_new_tokens=100)
-            return response
-        except Exception:
-            time.sleep(2)
+    response = client.chat.completions.create(
+        model="llama3-8b-8192",
+        messages=[{"role": "user", "content": prompt}]
+    )
 
-    return "⚠️ Server busy. Please try again in a few seconds."
+    return response.choices[0].message.content
 # UI
 st.set_page_config(page_title="AI Financial Assistant")
 st.title("💰 AI Financial Assistant")

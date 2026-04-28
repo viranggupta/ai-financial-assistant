@@ -2,3 +2,5 @@ streamlit
 pymongo
 huggingface_hub
 numpy
+openai
+groq
