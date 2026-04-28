@@ -9,24 +9,25 @@ client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 # Load API
 def generate_response(user_query, context=""):
-    prompt = f"""
-You are a financial assistant.
+    prompt = f"..."
 
-Context:
-{context}
+    models = [
+        "llama-3.1-8b-instant",
+        "llama-3.1-70b-versatile"
+    ]
 
-Question:
-{user_query}
+    for m in models:
+        try:
+            response = client.chat.completions.create(
+                model=m,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            return response.choices[0].message.content
+        except Exception:
+            continue
 
-Answer clearly and professionally.
-"""
+    return "⚠️ Model temporarily unavailable. Try again."
 
-    response = client.chat.completions.create(
-        model="mixtral-8x7b-32768",   # ✅ updated model
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    return response.choices[0].message.content
 # UI
 st.set_page_config(page_title="AI Financial Assistant")
 st.title("💰 AI Financial Assistant")
