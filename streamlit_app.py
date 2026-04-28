@@ -36,10 +36,13 @@ Give a structured answer with:
             messages=[{"role": "user", "content": prompt}]
         )
 
-        answer = response.choices[0].message.content
+        try:
+            answer = response.choices[0].message.content
+        except:
+             answer = "⚠️ No response generated."
 
         # ✅ Save conversation
-        store_memory(f"Q: {user_query} A: {answer}")
+        store_memory(f"User: {user_query}\nAssistant: {answer}")
 
         return answer
 
